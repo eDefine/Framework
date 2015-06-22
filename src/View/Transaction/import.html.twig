@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <form action="{{ path('transaction', 'import') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">File</label>
+            <div class="col-sm-10">
+                {{ form_input(transactionImportForm.get('file')) }}
+            </div>
+        </div>
+        {{ form_input(transactionImportForm.get('hidden')) }}
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

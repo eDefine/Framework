@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="well">
+        <a href="{{ path('weight', 'add') }}" class="btn btn-primary">Add</a>
+        <a href="{{ path('weight', 'print') }}" class="btn btn-default">
+            <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+            Print
+        </a>
+        <a href="{{ path('weight', 'export') }}" class="btn btn-default">
+            <span class="glyphicon glyphicon-save-file" aria-hidden="true"></span>
+            Download CSV
+        </a>
+        <a href="{{ path('weight', 'consolidation') }}" class="btn btn-warning">
+            <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+            Run consolidation
+        </a>
+    </div>
+    <div id="chart_div" style="width:800; height:400"></div>
+    <div>
+        <dl>
+            <dt>Days</dt><dd>{{ calculator.dayDifference }}</dd>
+            <dt>Weight</dt><dd>{{ calculator.weightDifference }}</dd>
+            <dt>Ratio</dt><dd>{{ calculator.ratio | number_format(2) }} per day ({{ calculator.ratio(7) | number_format(2) }} per week)</dd>
+        </dl>
+    </div>
+    <table class="table table-bordered table-striped table-condensed">
+        <thead>
+            <tr>
+                <th><a href="{{ path('weight', 'index', {'sort': 'date'}) }}">Date</a></th>
+                <th><a href="{{ path('weight', 'index', {'sort': 'value'}) }}">Value</a></th>
+                <th><a href="{{ path('weight', 'index', {'sort': 'info'}) }}">Info</a></th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for weight in weights %}
+                <tr>
+                    <td>{{ weight.date | date('Y-m-d H:i:s') }}</td>
+                    <td>{{ weight.value | number_format(1) }}</td>
+                    <td>{{ weight.info }}</td>
+                    <td>
+                        <a href="{{ path('weight', 'edit', {'id': weight.id}) }}" class="btn btn-warning btn-xs">Edit</a>
+                        <a href="{{ path('weight', 'remove', {'id': weight.id}) }}" class="btn btn-danger btn-xs">Remove</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load('visualization', '1.0', {'packages':['corechart']});
+        google.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('date', 'Date');
+            data.addColumn('number', 'Weight');
+            data.addRows([
+                {% for weight in weights %}
+                    [new Date({{ weight.date | date('Y') }}, {{ (weight.date | date('m')) - 1 }}, {{ weight.date | date('d, H, i, s') }}), {{ weight.value }}],
+                {% endfor %}
+            ]);
+
+            var options = {
+                'title':'Weight graph',
+                'curveType': 'function',
+                'width':800,
+                'height':400
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+    </script>
+{% endblock %}

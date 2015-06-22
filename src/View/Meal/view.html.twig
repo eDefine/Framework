@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="well">
+        <a href="{{ path('meal', 'edit', {'id': meal.id}) }}" class="btn btn-warning">Edit</a>
+        <a href="{{ path('meal', 'remove', {'id': meal.id}) }}" class="btn btn-danger">Remove</a>
+    </div>
+    <h1>{{ meal.date | date('Y-m-d H:i:s') }}</h1>
+    <h2>Meal Products</h2>
+    <table class="table table-bordered table-striped table-condensed">
+        <thead>
+        <tr>
+            <th>Product Id</th>
+            <th>Weight</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for mealProduct in mealProducts %}
+                <tr>
+                    <td>{{ mealProduct.productId }}</td>
+                    <td>{{ mealProduct.weight }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

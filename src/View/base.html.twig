@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Edefine Framework</title>
+
+        <meta charset="utf-8" />
+        <link href="/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="/css/main.css" rel="stylesheet" />
+        <link rel="shortcut icon" href="/img/favicon.ico" />
+
+        <script src="/js/jquery-1.11.3.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/typeahead.bundle.min.js"></script>
+        <script src="/js/main.js"></script>
+        {% block scripts %}{% endblock %}
+    </head>
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ path('home', 'index') }}">
+                        <img alt="Edefine Framework" src="/img/logo.png" width="20" height="20" />
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li{% if route_matches('transaction') %} class="active"{% endif %}><a href="{{ path('transaction', 'index') }}">Transactions</a></li>
+                        {% if user and user.hasRole('ADMIN') %}
+                            <li{% if route_matches('category') %} class="active"{% endif %}><a href="{{ path('category', 'index') }}">Categories</a></li>
+                            <li{% if route_matches('product') %} class="active"{% endif %}><a href="{{ path('product', 'index') }}">Products</a></li>
+                            <li{% if route_matches('user') %} class="active"{% endif %}><a href="{{ path('user', 'index') }}">Users</a></li>
+                        {% endif %}
+                        <li{% if route_matches('weight') %} class="active"{% endif %}><a href="{{ path('weight', 'index') }}">Weights</a></li>
+                        <li{% if route_matches('meal') %} class="active"{% endif %}><a href="{{ path('meal', 'index') }}">Meals</a></li>
+                        <li{% if route_matches('country') %} class="active"{% endif %}><a href="{{ path('country', 'index') }}">Countries</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if user %}
+                            <li>
+                                <a href="{{ path('message', 'index') }}">
+                                    <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                                    {% if newMessages %}
+                                        <span class="badge">{{ newMessages | length }}</span>
+                                    {% endif %}
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li><a href="#">Link</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                {% if user %}
+                                    <li><a href="{{ path('security', 'logout') }}">Logout</a></li>
+                                {% else %}
+                                    <li><a href="{{ path('security', 'login') }}">Login</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            {% for flashMessage in flash('success') %}
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Success!</strong> {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in flash('info') %}
+                <div class="alert alert-info alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Info!</strong> {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in flash('warning') %}
+                <div class="alert alert-warning alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Warning!</strong> {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in flash('error') %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Error!</strong> {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% block body %}{% endblock %}
+        </div>
+        <nav class="navbar navbar-default navbar-fixed-bottom">
+            <div class="container">
+                <p class="text-center">eDefine &copy; {{ 'now' | date('Y') }} :: Version: {{ util_version() }} (Build: {{ util_build() }})</p>
+            </div>
+        </nav>
+    </body>
+</html>

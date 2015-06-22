@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Edefine Framework</title>
+
+        <meta charset="utf-8" />
+        <link href="/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="shortcut icon" href="/img/favicon.ico" />
+
+        <script src="/js/jquery-1.11.3.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        {% block scripts %}{% endblock %}
+    </head>
+    <body>
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
+    </body>
+</html>

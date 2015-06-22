@@ -1,0 +1,16 @@
+{
+    "name": "edefine/framework",
+    "authors": [
+        {
+            "name": "Patryk Syc",
+            "email": "patryk@edefine.pl"
+        }
+    ],
+    "require": {
+        "twig/twig": "~1.0",
+        "phpmailer/phpmailer": "~5.2"
+    },
+    "autoload": {
+        "psr-4": {"": "src/"}
+    }
+}

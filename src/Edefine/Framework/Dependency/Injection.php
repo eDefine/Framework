@@ -43,7 +43,7 @@ class Injection
         $container->add('request', $request);
 
         $configReader = new Reader();
-        $config = $configReader->read(sprintf('%s/../../../../config.ini', __DIR__));
+        $config = $configReader->read(sprintf('%s/../../../../../../../config.ini', __DIR__));
         $container->add('config', $config);
 
         $dbConnection = new Connection($config);
@@ -55,7 +55,7 @@ class Injection
         $memcached = new Memcached($config);
         $container->add('memcached', $memcached);
 
-        $logger = new Writer(sprintf('%s/../../../../log/dev.log', __DIR__));
+        $logger = new Writer(sprintf('%s/../../../../../../../log/dev.log', __DIR__));
         $container->add('logger', $logger);
 
         $router = new Router($config);

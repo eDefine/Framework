@@ -29,7 +29,7 @@ class Injection
     /**
      * @return Container
      */
-    public static function initContainer()
+    public static function initContainer($basePath)
     {
         $container = new Container();
 
@@ -43,7 +43,7 @@ class Injection
         $container->add('request', $request);
 
         $configReader = new Reader();
-        $config = $configReader->read(sprintf('%s/../../../../../../../config.ini', __DIR__));
+        $config = $configReader->read(sprintf('%s/config.ini', $basePath));
         $container->add('config', $config);
 
         $dbConnection = new Connection($config);
@@ -55,7 +55,7 @@ class Injection
         $memcached = new Memcached($config);
         $container->add('memcached', $memcached);
 
-        $logger = new Writer(sprintf('%s/../../../../../../../log/dev.log', __DIR__));
+        $logger = new Writer(sprintf('%s/log/dev.log', $basePath));
         $container->add('logger', $logger);
 
         $router = new Router($config);
@@ -70,7 +70,7 @@ class Injection
         $mailer = new Mailer($config);
         $container->add('mailer', $mailer);
 
-        $twig = new Twig();
+        $twig = new Twig(sprintf('%s/src/View', $basePath));
         $twig->addExtension(new FlashExtension($flashBag));
         $twig->addExtension(new RouterExtension($router, $request));
         $twig->addExtension(new FormExtension());

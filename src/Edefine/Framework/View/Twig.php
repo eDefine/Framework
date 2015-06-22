@@ -10,11 +10,11 @@ class Twig
 {
     private $twig;
 
-    public function __construct()
+    public function __construct($path)
     {
         \Twig_Autoloader::register();
 
-        $loader = new \Twig_Loader_Filesystem(__DIR__ . '/../../../View');
+        $loader = new \Twig_Loader_Filesystem($path);
         $this->twig = new \Twig_Environment($loader);
     }
 

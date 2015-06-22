@@ -27,10 +27,9 @@ use Edefine\Framework\View\Twig;
 class Injection
 {
     /**
-     * @param $basePath
      * @return Container
      */
-    public static function initContainer($basePath)
+    public static function initContainer()
     {
         $container = new Container();
 
@@ -44,7 +43,7 @@ class Injection
         $container->add('request', $request);
 
         $configReader = new Reader();
-        $config = $configReader->read(sprintf('%s/config.ini', $basePath));
+        $config = $configReader->read(sprintf('%s/config.ini', APP_DIR));
         $container->add('config', $config);
 
         $dbConnection = new Connection($config);
@@ -56,7 +55,7 @@ class Injection
         $memcached = new Memcached($config);
         $container->add('memcached', $memcached);
 
-        $logger = new Writer(sprintf('%s/log/dev.log', $basePath));
+        $logger = new Writer(sprintf('%s/log/dev.log', APP_DIR));
         $container->add('logger', $logger);
 
         $router = new Router($config);
@@ -71,7 +70,7 @@ class Injection
         $mailer = new Mailer($config);
         $container->add('mailer', $mailer);
 
-        $twig = new Twig(sprintf('%s/src/View', $basePath));
+        $twig = new Twig(sprintf('%s/src/View', APP_DIR));
         $twig->addExtension(new FlashExtension($flashBag));
         $twig->addExtension(new RouterExtension($router, $request));
         $twig->addExtension(new FormExtension());

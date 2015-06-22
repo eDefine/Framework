@@ -27,6 +27,7 @@ use Edefine\Framework\View\Twig;
 class Injection
 {
     /**
+     * @param $basePath
      * @return Container
      */
     public static function initContainer($basePath)

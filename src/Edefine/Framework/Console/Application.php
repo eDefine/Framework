@@ -6,6 +6,7 @@ use Edefine\Framework\Console\Input\ArgvInput;
 use Edefine\Framework\Console\Input\InputInterface;
 use Edefine\Framework\Console\Output\ConsoleOutput;
 use Edefine\Framework\Console\Output\OutputInterface;
+use Edefine\Framework\Dependency\Container;
 
 /**
  * Class Application
@@ -13,8 +14,18 @@ use Edefine\Framework\Console\Output\OutputInterface;
  */
 class Application
 {
+    private $container;
+
     /** @var AbstractJob[] */
     private $jobs = [];
+
+    /**
+     * @param Container $container
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
 
     /**
      * @param InputInterface $input
@@ -72,10 +83,8 @@ class Application
             throw new \RuntimeException(sprintf('Job with name %s does not exist', $jobName));
         }
 
-        $container = \DependencyInjection::initContainer();
-
         $job = $this->jobs[$jobName];
-        $job->setContainer($container);
+        $job->setContainer($this->container);
         $job->run($input, $output);
     }
 }

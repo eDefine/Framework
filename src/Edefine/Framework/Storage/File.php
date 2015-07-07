@@ -44,7 +44,7 @@ class File
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
@@ -63,7 +63,7 @@ class File
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getType()
     {
@@ -82,7 +82,7 @@ class File
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getPath()
     {
@@ -101,10 +101,37 @@ class File
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getSize()
     {
         return $this->size;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExtension()
+    {
+        $parts = explode('.', $this->name);
+
+        return $parts[count($parts) - 1];
+    }
+
+    /**
+     * @param $path
+     * @return $this
+     */
+    public function move($path)
+    {
+        $dir = dirname($path);
+        if (!file_exists($dir)) {
+            mkdir($dir, 0777, true);
+        }
+
+        move_uploaded_file($this->path, $path);
+        $this->path = $path;
+
+        return $this;
     }
 }

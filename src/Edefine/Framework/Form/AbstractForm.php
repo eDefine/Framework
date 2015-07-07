@@ -14,8 +14,12 @@ abstract class AbstractForm
     protected $options;
     private $name;
     private $object;
+
     /** @var AbstractInput[] */
     private $inputs = [];
+
+    /** @var Request */
+    private $request;
 
     protected abstract function build();
 
@@ -50,6 +54,8 @@ abstract class AbstractForm
      */
     public function bindRequest(Request $request)
     {
+        $this->request = $request;
+
         $data = $request->getParam($this->name);
         $files = $request->getFiles($this->name);
 
@@ -96,5 +102,17 @@ abstract class AbstractForm
         $this->inputs[$input->getName()] = $input;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSent()
+    {
+        if (!$this->request) {
+            return false;
+        }
+
+        return $this->request->hasParam($this->name) || $this->request->hasFiles($this->name);
     }
 }

@@ -8,7 +8,7 @@ namespace Edefine\Framework\Http;
  */
 class Response
 {
-    private $content;
+    protected $content;
     private $headers = [];
 
     /**
@@ -20,7 +20,7 @@ class Response
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getContent()
     {

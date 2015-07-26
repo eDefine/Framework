@@ -88,21 +88,29 @@ class Request
      * @param $formName
      * @return bool
      */
-    public function hasFiles($formName)
+    public function hasFiles($formName = null)
     {
-        return isset($this->files[$formName]);
+        if ($formName) {
+            return isset($this->files[$formName]);
+        } else {
+            return count($this->files) > 0;
+        }
     }
 
     /**
      * @param $formName
      * @return array
      */
-    public function getFiles($formName)
+    public function getFiles($formName = null)
     {
         if (!$this->hasFiles($formName)) {
             return [];
         }
 
-        return UploadedFilesBuilder::build($this->files[$formName]);
+        if ($formName) {
+            return UploadedFilesBuilder::buildFromNamedForm($this->files[$formName]);
+        } else {
+            return UploadedFilesBuilder::buildFromUnnamedForm($this->files);
+        }
     }
 }

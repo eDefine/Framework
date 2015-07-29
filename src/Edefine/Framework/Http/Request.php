@@ -69,6 +69,18 @@ class Request
     }
 
     /**
+     * @param $name
+     * @param $value
+     * @return $this
+     */
+    public function setParam($name, $value)
+    {
+        $this->data[$name] = $value;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getControllerName()

@@ -24,6 +24,7 @@ class Writer
 
         if (!file_exists($path)) {
             touch($path);
+            chmod($path, 0777);
         }
     }
 

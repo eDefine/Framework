@@ -35,7 +35,7 @@ class FixturesLoad extends AbstractJob
      */
     public function run(InputInterface $input, OutputInterface $output)
     {
-        $fixtureIterator = new FixtureIterator(APP_DIR . '/src/Fixture', $this->getContainer());
+        $fixtureIterator = new FixtureIterator(APP_DIR . '/src/Fixture');
         foreach ($fixtureIterator as $fixture) {
             $fixtures[] = $fixture;
         }

@@ -2,16 +2,12 @@
 
 namespace Edefine\Framework\Fixture;
 
-use Edefine\Framework\Dependency\Container;
-
 /**
  * Class AbstractFixture
  * @package Edefine\Framework\Fixture
  */
 abstract class AbstractFixture
 {
-    private $container;
-
     /**
      * @return mixed
      */
@@ -21,22 +17,6 @@ abstract class AbstractFixture
      * @return mixed
      */
     abstract public function getOrder();
-
-    /**
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
-     * @return Container
-     */
-    protected function getContainer()
-    {
-        return $this->container;
-    }
 
     /**
      * @param array $elements

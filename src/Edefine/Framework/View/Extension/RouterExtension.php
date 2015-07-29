@@ -47,11 +47,12 @@ class RouterExtension extends \Twig_Extension
      * @param $controller
      * @param $action
      * @param array $params
+     * @param bool|false $absolute
      * @return string
      */
-    public function getPath($controller, $action, array $params = [])
+    public function getPath($controller, $action, array $params = [], $absolute = false)
     {
-        return $this->router->path($controller, $action, $params);
+        return $this->router->path($controller, $action, $params, $absolute);
     }
 
     /**

@@ -16,6 +16,7 @@ class Router
 
     /**
      * @param Config $config
+     * @param Server $server
      */
     public function __construct(Config $config, Server $server)
     {
@@ -27,6 +28,7 @@ class Router
      * @param $controller
      * @param $action
      * @param array $params
+     * @param bool|false $absolute
      * @return string
      */
     public function path($controller, $action, array $params = [], $absolute = false)

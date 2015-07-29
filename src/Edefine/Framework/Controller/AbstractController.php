@@ -87,10 +87,11 @@ abstract class AbstractController
      * @param $controller
      * @param $action
      * @param array $params
-     * @return string
+     * @param bool|false $absolute
+     * @return mixed
      */
-    protected function getPath($controller, $action, array $params = [])
+    protected function getPath($controller, $action, array $params = [], $absolute = false)
     {
-        return $this->getContainer()->get('router')->path($controller, $action, $params);
+        return $this->getContainer()->get('router')->path($controller, $action, $params, $absolute);
     }
 }

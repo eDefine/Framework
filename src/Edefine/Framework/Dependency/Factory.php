@@ -19,204 +19,217 @@ use Edefine\Framework\View\Twig;
 
 class Factory
 {
-    protected static $session;
-    protected static $cookie;
-    protected static $request;
-    protected static $server;
-    protected static $config;
-    protected static $database;
-    protected static $entityManager;
-    protected static $memcached;
-    protected static $logger;
-    protected static $router;
-    protected static $flashBag;
-    protected static $pdfGenerator;
-    protected static $mailer;
-    protected static $twig;
-    protected static $dispatcher;
+    private static $instance;
+
+    protected $session;
+    protected $cookie;
+    protected $request;
+    protected $server;
+    protected $config;
+    protected $database;
+    protected $entityManager;
+    protected $memcached;
+    protected $logger;
+    protected $router;
+    protected $flashBag;
+    protected $pdfGenerator;
+    protected $mailer;
+    protected $twig;
+    protected $dispatcher;
+
+    public static function getInstance()
+    {
+        if (!self::$instance) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
+
+    private function __construct() {}
 
     /**
      * @return Session\Session
      */
-    public static function getSession()
+    public function getSession()
     {
-        if (!self::$session) {
-            self::$session = new Session\Session();
+        if (!$this->session) {
+            $this->session = new Session\Session();
         }
 
-        return self::$session;
+        return $this->session;
     }
 
     /**
      * @return Cookie
      */
-    public static function getCookie()
+    public function getCookie()
     {
-        if (!self::$cookie) {
-            self::$cookie = new Cookie();
+        if (!$this->cookie) {
+            $this->cookie = new Cookie();
         }
 
-        return self::$cookie;
+        return $this->cookie;
     }
 
     /**
      * @return Http\Request
      */
-    public static function getRequest()
+    public function getRequest()
     {
-        if (!self::$request) {
-            self::$request = new Http\Request(self::getSession(), self::getCookie());
+        if (!$this->request) {
+            $this->request = new Http\Request($this->getSession(), $this->getCookie());
         }
 
-        return self::$request;
+        return $this->request;
     }
 
     /**
      * @return Http\Server
      */
-    public static function getServer()
+    public function getServer()
     {
-        if (!self::$server) {
-            self::$server = new Http\Server();
+        if (!$this->server) {
+            $this->server = new Http\Server();
         }
 
-        return self::$server;
+        return $this->server;
     }
 
     /**
      * @return Config\Config
      */
-    public static function getConfig()
+    public function getConfig()
     {
-        if (!self::$config) {
+        if (!$this->config) {
             $configReader = new Config\Reader();
-            self::$config = $configReader->read(sprintf('%s/config.ini', APP_DIR));
+            $this->config = $configReader->read(sprintf('%s/config.ini', APP_DIR));
         }
 
-        return self::$config;
+        return $this->config;
     }
 
     /**
      * @return Connection
      */
-    public static function getDatabase()
+    public function getDatabase()
     {
-        if (!self::$database) {
-            self::$database = new Connection(self::getConfig());
+        if (!$this->database) {
+            $this->database = new Connection($this->getConfig());
         }
 
-        return self::$database;
+        return $this->database;
     }
 
     /**
      * @return EntityManager
      */
-    public static function getEntityManager()
+    public function getEntityManager()
     {
-        if (!self::$entityManager) {
-            self::$entityManager = new EntityManager(self::getDatabase());
+        if (!$this->entityManager) {
+            $this->entityManager = new EntityManager($this->getDatabase());
         }
 
-        return self::$entityManager;
+        return $this->entityManager;
     }
 
     /**
      * @return Memcached
      */
-    public static function getMemcached()
+    public function getMemcached()
     {
-        if (!self::$memcached) {
-            self::$memcached = new Memcached(self::getConfig());
+        if (!$this->memcached) {
+            $this->memcached = new Memcached($this->getConfig());
         }
 
-        return self::$memcached;
+        return $this->memcached;
     }
 
     /**
      * @return Writer
      */
-    public static function getLogger()
+    public function getLogger()
     {
-        if (!self::$logger) {
-            self::$logger = new Writer(sprintf('%s/log/dev.log', APP_DIR));
+        if (!$this->logger) {
+            $this->logger = new Writer(sprintf('%s/log/dev.log', APP_DIR));
         }
 
-        return self::$logger;
+        return $this->logger;
     }
 
     /**
      * @return Router
      */
-    public static function getRouter()
+    public function getRouter()
     {
-        if (!self::$router) {
-            self::$router = new Router(self::getConfig(), self::getServer());
+        if (!$this->router) {
+            $this->router = new Router($this->getConfig(), $this->getServer());
         }
 
-        return self::$router;
+        return $this->router;
     }
 
     /**
      * @return Session\FlashBag
      */
-    public static function getFlashBag()
+    public function getFlashBag()
     {
-        if (!self::$flashBag) {
-            self::$flashBag = new Session\FlashBag(self::getSession());
+        if (!$this->flashBag) {
+            $this->flashBag = new Session\FlashBag($this->getSession());
         }
 
-        return self::$flashBag;
+        return $this->flashBag;
     }
 
     /**
      * @return Generator
      */
-    public static function getPdfGenerator()
+    public function getPdfGenerator()
     {
-        if (!self::$pdfGenerator) {
-            self::$pdfGenerator = new Generator(self::getConfig());
+        if (!$this->pdfGenerator) {
+            $this->pdfGenerator = new Generator($this->getConfig());
         }
 
-        return self::$pdfGenerator;
+        return $this->pdfGenerator;
     }
 
     /**
      * @return Mailer
      */
-    public static function getMailer()
+    public function getMailer()
     {
-        if (!self::$mailer) {
-            self::$mailer = new Mailer(self::getConfig());
+        if (!$this->mailer) {
+            $this->mailer = new Mailer($this->getConfig());
         }
 
-        return self::$mailer;
+        return $this->mailer;
     }
 
     /**
      * @return Twig
      */
-    public static function getTwig()
+    public function getTwig()
     {
-        if (!self::$twig) {
+        if (!$this->twig) {
             $twig = new Twig(sprintf('%s/src/View', APP_DIR));
-            $twig->addExtension(new TwigExtension\FlashExtension(self::getFlashBag()));
-            $twig->addExtension(new TwigExtension\RouterExtension(self::getRouter(), self::getRequest()));
+            $twig->addExtension(new TwigExtension\FlashExtension($this->getFlashBag()));
+            $twig->addExtension(new TwigExtension\RouterExtension($this->getRouter(), $this->getRequest()));
             $twig->addExtension(new TwigExtension\FormExtension());
-            self::$twig = $twig;
+            $this->twig = $twig;
         }
 
-        return self::$twig;
+        return $this->twig;
     }
 
     /**
      * @return Dispatcher
      */
-    public static function getDispatcher()
+    public function getDispatcher()
     {
-        if (!self::$dispatcher) {
-            self::$dispatcher = new Dispatcher();
+        if (!$this->dispatcher) {
+            $this->dispatcher = new Dispatcher();
         }
 
-        return self::$dispatcher;
+        return $this->dispatcher;
     }
 }

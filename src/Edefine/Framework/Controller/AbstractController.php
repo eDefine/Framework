@@ -2,7 +2,6 @@
 
 namespace Edefine\Framework\Controller;
 
-use Edefine\Framework\Dependency\Factory;
 use Edefine\Framework\Http\HtmlResponse;
 use Edefine\Framework\Http\RedirectResponse;
 use Edefine\Framework\Http\Request;
@@ -20,7 +19,7 @@ abstract class AbstractController
      */
     protected function renderView(array $data = [])
     {
-        $twig = Factory::getTwig();
+        $twig = \DependencyFactory::getTwig();
         $html = $twig->render(sprintf(
             '%s/%s.html.twig',
             $this->getRequest()->getControllerName(),
@@ -44,7 +43,7 @@ abstract class AbstractController
      */
     protected function getRequest()
     {
-        return Factory::getRequest();
+        return \DependencyFactory::getRequest();
     }
 
     /**
@@ -62,7 +61,7 @@ abstract class AbstractController
      */
     protected function getSession()
     {
-        return Factory::getSession();
+        return \DependencyFactory::getSession();
     }
 
     /**
@@ -74,6 +73,6 @@ abstract class AbstractController
      */
     protected function getPath($controller, $action, array $params = [], $absolute = false)
     {
-        return Factory::getRouter()->path($controller, $action, $params, $absolute);
+        return \DependencyFactory::getRouter()->path($controller, $action, $params, $absolute);
     }
 }

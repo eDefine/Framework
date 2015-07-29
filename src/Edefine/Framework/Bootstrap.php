@@ -3,7 +3,6 @@
 namespace Edefine\Framework;
 
 use Edefine\Framework\Controller\ActionDispatcher;
-use Edefine\Framework\Dependency\Factory;
 use Edefine\Framework\Event\RequestEvent;
 use Edefine\Framework\Http\ResponseHandler;
 
@@ -15,8 +14,8 @@ class Bootstrap
 {
     public function run()
     {
-        $request = Factory::getRequest();
-        Factory::getDispatcher()->dispatch('kernel.request', new RequestEvent($request));
+        $request = \DependencyFactory::getRequest();
+        \DependencyFactory::getDispatcher()->dispatch('kernel.request', new RequestEvent($request));
         $controllerPath = sprintf('Controller\%sController', $request->getControllerName());
         $actionMethod = sprintf('%sAction', $request->getActionName());
 

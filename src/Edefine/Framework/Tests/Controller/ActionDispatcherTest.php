@@ -4,7 +4,6 @@ namespace Edefine\Framework\Tests\Controller;
 
 use Edefine\Framework\Controller\AbstractController;
 use Edefine\Framework\Controller\ActionDispatcher;
-use Edefine\Framework\Dependency\Container;
 use Edefine\Framework\Http\Response;
 
 class ActionDispatcherTest extends \PHPUnit_Framework_TestCase
@@ -14,9 +13,7 @@ class ActionDispatcherTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $container = new Container();
-
-        $this->dispatcher = new ActionDispatcher($container);
+        $this->dispatcher = new ActionDispatcher();
     }
 
     /**

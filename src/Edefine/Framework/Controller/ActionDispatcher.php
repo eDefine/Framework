@@ -2,7 +2,6 @@
 
 namespace Edefine\Framework\Controller;
 
-use Edefine\Framework\Dependency\Container;
 use Edefine\Framework\Http\Response;
 
 /**
@@ -11,16 +10,6 @@ use Edefine\Framework\Http\Response;
  */
 class ActionDispatcher
 {
-    private $container;
-
-    /**
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
-
     /**
      * @param $controllerPath
      * @param $actionMethod
@@ -32,7 +21,7 @@ class ActionDispatcher
             throw new \InvalidArgumentException(sprintf('Controller %s does not exist', $controllerPath));
         }
 
-        $controller = new $controllerPath($this->container);
+        $controller = new $controllerPath();
 
         if (!method_exists($controller, $actionMethod)) {
             throw new \InvalidArgumentException(sprintf('Action %s does not exist', $actionMethod));

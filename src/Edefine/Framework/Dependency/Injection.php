@@ -8,6 +8,7 @@ use Edefine\Framework\Cookie\Cookie;
 use Edefine\Framework\Database\Connection;
 use Edefine\Framework\Event\Dispatcher;
 use Edefine\Framework\Http\Request;
+use Edefine\Framework\Http\Server;
 use Edefine\Framework\Log\Writer;
 use Edefine\Framework\Mail\Mailer;
 use Edefine\Framework\ORM\EntityManager;
@@ -42,6 +43,9 @@ class Injection
         $request = new Request($session, $cookie);
         $container->add('request', $request);
 
+        $server = new Server();
+        $container->add('server', $server);
+
         $configReader = new Reader();
         $config = $configReader->read(sprintf('%s/config.ini', APP_DIR));
         $container->add('config', $config);
@@ -58,7 +62,7 @@ class Injection
         $logger = new Writer(sprintf('%s/log/dev.log', APP_DIR));
         $container->add('logger', $logger);
 
-        $router = new Router($config);
+        $router = new Router($config, $server);
         $container->add('router', $router);
 
         $flashBag = new FlashBag($session);

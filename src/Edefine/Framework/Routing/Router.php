@@ -3,6 +3,7 @@
 namespace Edefine\Framework\Routing;
 
 use Edefine\Framework\Config\Config;
+use Edefine\Framework\Http\Server;
 
 /**
  * Class Router
@@ -11,13 +12,15 @@ use Edefine\Framework\Config\Config;
 class Router
 {
     private $config;
+    private $server;
 
     /**
      * @param Config $config
      */
-    public function __construct(Config $config)
+    public function __construct(Config $config, Server $server)
     {
         $this->config = $config;
+        $this->server = $server;
     }
 
     /**
@@ -26,10 +29,10 @@ class Router
      * @param array $params
      * @return string
      */
-    public function path($controller, $action, array $params = [])
+    public function path($controller, $action, array $params = [], $absolute = false)
     {
         if ($this->isModRewriteEnabled()) {
-            return $this->urlFromArray(sprintf('/%s/%s', $controller, $action), $params);
+            $url = $this->urlFromArray(sprintf('/%s/%s', $controller, $action), $params);
         } else {
             if ($controller != $this->config->get('routing.default_controller')) {
                 $params['module'] = $controller;
@@ -39,7 +42,18 @@ class Router
                 $params['do'] = $action;
             }
 
-            return $this->urlFromArray('/index.php', $params);
+            $url = $this->urlFromArray('/index.php', $params);
+        }
+
+        if ($absolute) {
+            return sprintf(
+                '%s://%s%s',
+                $this->server->get('REQUEST_SCHEME', 'http'),
+                $this->server->get('SERVER_NAME', $this->config->get('application.domain')),
+                $url
+            );
+        } else {
+            return $url;
         }
     }
 

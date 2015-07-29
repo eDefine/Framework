@@ -19,7 +19,7 @@ abstract class AbstractController
      */
     protected function renderView(array $data = [])
     {
-        $twig = \DependencyFactory::getTwig();
+        $twig = \DependencyFactory::getInstance()->getTwig();
         $html = $twig->render(sprintf(
             '%s/%s.html.twig',
             $this->getRequest()->getControllerName(),
@@ -43,7 +43,7 @@ abstract class AbstractController
      */
     protected function getRequest()
     {
-        return \DependencyFactory::getRequest();
+        return \DependencyFactory::getInstance()->getRequest();
     }
 
     /**
@@ -61,7 +61,7 @@ abstract class AbstractController
      */
     protected function getSession()
     {
-        return \DependencyFactory::getSession();
+        return \DependencyFactory::getInstance()->getSession();
     }
 
     /**
@@ -73,6 +73,6 @@ abstract class AbstractController
      */
     protected function getPath($controller, $action, array $params = [], $absolute = false)
     {
-        return \DependencyFactory::getRouter()->path($controller, $action, $params, $absolute);
+        return \DependencyFactory::getInstance()->getRouter()->path($controller, $action, $params, $absolute);
     }
 }

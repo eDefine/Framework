@@ -14,8 +14,10 @@ class Bootstrap
 {
     public function run()
     {
-        $request = \DependencyFactory::getRequest();
-        \DependencyFactory::getDispatcher()->dispatch('kernel.request', new RequestEvent($request));
+        $dependencyFactory = \DependencyFactory::getInstance();
+
+        $request = $dependencyFactory->getRequest();
+        $dependencyFactory->getDispatcher()->dispatch('kernel.request', new RequestEvent($request));
         $controllerPath = sprintf('Controller\%sController', $request->getControllerName());
         $actionMethod = sprintf('%sAction', $request->getActionName());
 

@@ -66,8 +66,27 @@ class Application
      */
     private function printJobsList(OutputInterface $output)
     {
+        $sections = [];
+        $maxLength = 0;
         foreach ($this->jobs as $job) {
-            $output->writeln(sprintf("%s\t%s", $job->getName(), $job->getInfo()));
+            $maxLength = max($maxLength, strlen($job->getName()));
+            $nameParams = explode(':', $job->getName());
+            $sections[$nameParams[0]][] = $job;
+        }
+
+        foreach ($sections as $section => $jobs) {
+            $output->writeln(sprintf('%s:', $section));
+
+            foreach ($jobs as $job) {
+                $spacesNumber = $maxLength - strlen($job->getName()) + 1;
+
+                $output->writeln(sprintf(
+                    "\t%s%s%s",
+                    $job->getName(),
+                    str_repeat(' ', $spacesNumber),
+                    $job->getInfo()
+                ));
+            }
         }
     }
 

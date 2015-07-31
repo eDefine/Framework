@@ -9,18 +9,15 @@ use Edefine\Framework\Storage\File;
  */
 class DownloadResponse extends Response
 {
-    private $file;
-
+    /**
+     * @param File $file
+     */
     public function __construct(File $file)
     {
-        $this->file = $file;
+        parent::__construct($file->getContent());
 
         $this->addHeader(sprintf('Content-Type: %s', $file->getType()));
+        $this->addHeader(sprintf('Content-Length: %s', $file->getSize()));
         $this->addHeader(sprintf('Content-Disposition: attachment; filename="%s"', $file->getName()));
-    }
-
-    public function getContent()
-    {
-        return $this->file->getContent();
     }
 }

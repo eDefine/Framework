@@ -11,7 +11,6 @@ class File
     private $name;
     private $type;
     private $path;
-    private $size;
 
     /**
      * @param $content
@@ -90,22 +89,11 @@ class File
     }
 
     /**
-     * @param $size
-     * @return $this
-     */
-    public function setSize($size)
-    {
-        $this->size = $size;
-
-        return $this;
-    }
-
-    /**
      * @return int
      */
     public function getSize()
     {
-        return $this->size;
+        return filesize($this->path);
     }
 
     /**

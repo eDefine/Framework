@@ -8,7 +8,27 @@ namespace Edefine\Framework\Storage;
  */
 class UploadedFile extends File
 {
+    private $size;
     private $error;
+
+    /**
+     * @param $size
+     * @return $this
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
 
     /**
      * @param $error

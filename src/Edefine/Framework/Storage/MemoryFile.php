@@ -11,6 +11,14 @@ class MemoryFile extends File
     private $content;
 
     /**
+     * @return int
+     */
+    public function getSize()
+    {
+        return strlen($this->content);
+    }
+
+    /**
      * @param $content
      * @return $this
      */

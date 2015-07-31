@@ -17,7 +17,7 @@ class DownloadResponse extends Response
         parent::__construct($file->getContent());
 
         $this->addHeader(sprintf('Content-Type: %s', $file->getType()));
-        $this->addHeader(sprintf('Content-Length: %s', $file->getSize()));
+        $this->addHeader(sprintf('Content-Length: %d', $file->getSize()));
         $this->addHeader(sprintf('Content-Disposition: attachment; filename="%s"', $file->getName()));
     }
 }

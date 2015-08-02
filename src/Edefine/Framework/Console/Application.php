@@ -87,6 +87,8 @@ class Application
                     $job->getInfo()
                 ));
             }
+
+            $output->writeln('');
         }
     }
 

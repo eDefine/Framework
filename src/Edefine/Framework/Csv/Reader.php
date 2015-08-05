@@ -18,7 +18,7 @@ class Reader
         $lines = explode(PHP_EOL, $data);
 
         $headerLine = array_shift($lines);
-        $header = $this->getFieldsFromLine($headerLine);
+        $header = str_getcsv($headerLine);
 
         $rows = [];
         foreach ($lines as $line) {
@@ -35,7 +35,7 @@ class Reader
      */
     private function parseLine($line, $header)
     {
-        $fields = $this->getFieldsFromLine($line);
+        $fields = str_getcsv($line);
 
         if (count($fields) != count($header)) {
             throw new \RuntimeException(sprintf(
@@ -48,22 +48,6 @@ class Reader
         $result = [];
         foreach ($header as $key => $value) {
             $result[$value] = $fields[$key];
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param $line
-     * @return array
-     */
-    private function getFieldsFromLine($line)
-    {
-        $fields = explode(',', $line);
-
-        $result = [];
-        foreach ($fields as $field) {
-            $result[] = trim($field, '"');
         }
 
         return $result;

@@ -45,11 +45,6 @@ class Reader
             ));
         }
 
-        $result = [];
-        foreach ($header as $key => $value) {
-            $result[$value] = $fields[$key];
-        }
-
-        return $result;
+        return array_combine($header, $fields);
     }
 }

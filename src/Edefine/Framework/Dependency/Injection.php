@@ -16,6 +16,7 @@ use Edefine\Framework\Pdf\Generator;
 use Edefine\Framework\Routing\Router;
 use Edefine\Framework\Session\FlashBag;
 use Edefine\Framework\Session\Session;
+use Edefine\Framework\Utils\System;
 use Edefine\Framework\View\Extension\FlashExtension;
 use Edefine\Framework\View\Extension\FormExtension;
 use Edefine\Framework\View\Extension\RouterExtension;
@@ -45,6 +46,9 @@ class Injection
 
         $server = new Server();
         $container->add('server', $server);
+
+        $system = new System();
+        $container->add('system', $system);
 
         $configReader = new Reader();
         $config = $configReader->read(sprintf('%s/config.ini', APP_DIR));

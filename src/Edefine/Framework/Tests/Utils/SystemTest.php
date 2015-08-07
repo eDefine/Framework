@@ -18,7 +18,8 @@ class SystemTest extends \PHPUnit_Framework_TestCase
 
         $system->cd('src/Edefine');
         $system->cd('Framework');
-        $system->cd('Tests');
+        $system->cd('..');
+        $system->cd('Framework/Tests');
 
         $this->assertEquals($testsDir, $system->pwd());
     }
@@ -30,6 +31,6 @@ class SystemTest extends \PHPUnit_Framework_TestCase
         $returnCode = $system->execute('echo "Hello, World!"');
 
         $this->assertEquals(0, $returnCode);
-        $this->assertEquals(['Hello, World!'], $system->getOutput());
+        $this->assertEquals('Hello, World!', $system->getOutput());
     }
 }

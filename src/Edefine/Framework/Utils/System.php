@@ -40,10 +40,10 @@ class System
     }
 
     /**
-     * @return string[]
+     * @return string
      */
     public function getOutput()
     {
-        return $this->output;
+        return implode(PHP_EOL, $this->output);
     }
 }

@@ -28,9 +28,10 @@ class SystemTest extends \PHPUnit_Framework_TestCase
     {
         $system = new System();
 
-        $returnCode = $system->execute('echo "Hello, World!"');
+        $returnCode = $system->execute('echo "Hello, World!" && echo "This is line 2"');
 
         $this->assertEquals(0, $returnCode);
-        $this->assertEquals('Hello, World!', $system->getOutput());
+        $this->assertEquals("Hello, World!\nThis is line 2", $system->getOutput());
+        $this->assertEquals(['Hello, World!', 'This is line 2'], $system->getArrayOutput());
     }
 }

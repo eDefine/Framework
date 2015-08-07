@@ -46,4 +46,12 @@ class System
     {
         return implode(PHP_EOL, $this->output);
     }
+
+    /**
+     * @return string[]
+     */
+    public function getArrayOutput()
+    {
+        return $this->output;
+    }
 }

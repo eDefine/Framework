@@ -60,6 +60,11 @@ class EntityManager
      */
     private function saveNewEntity(AbstractEntity $entity)
     {
+        $fieldsParts = [];
+        foreach ($entity->getMappedFields() as $field) {
+            $fieldsParts[] = sprintf('`%s`', $field);
+        }
+
         $valuesParts = [];
         foreach ($entity->getMappedFieldsWithValues() as $field => $value) {
             $valuesParts[] = ValueConverter::convertToDatabase($value);
@@ -68,7 +73,7 @@ class EntityManager
         $result = $this->database->exec(sprintf(
             'insert into %s (%s) values (%s)',
             $entity->getTableName(),
-            implode(', ', $entity->getMappedFields()),
+            implode(', ', $fieldsParts),
             implode(', ', $valuesParts)
         ));
 
@@ -86,7 +91,7 @@ class EntityManager
     {
         $updateParts = [];
         foreach ($entity->getMappedFieldsWithValues() as $field => $value) {
-            $updateParts[] = sprintf('%s = %s', $field, ValueConverter::convertToDatabase($value));
+            $updateParts[] = sprintf('`%s` = %s', $field, ValueConverter::convertToDatabase($value));
         }
 
         $result = $this->database->exec(sprintf(
@@ -97,5 +102,4 @@ class EntityManager
         ));
 
         return $entity;
-    }
 }

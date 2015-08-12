@@ -102,4 +102,5 @@ class EntityManager
         ));
 
         return $entity;
+    }
 }

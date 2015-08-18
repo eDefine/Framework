@@ -59,7 +59,8 @@ class Injection
         $container->add('logger', $logger);
 
         if ($config->get('application.environment') == 'development') {
-            $dbConnection = new LoggedConnection($config, $logger);
+            $databaseLogger = new Writer(sprintf('%s/log/database.log', APP_DIR));
+            $dbConnection = new LoggedConnection($config, $databaseLogger);
         } else {
             $dbConnection = new Connection($config);
         }

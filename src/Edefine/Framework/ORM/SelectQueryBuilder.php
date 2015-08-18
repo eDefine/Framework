@@ -33,7 +33,7 @@ class SelectQueryBuilder
      */
     public function getQuery()
     {
-        $query = sprintf('SELECT * FROM %s', $this->getTableName());
+        $query = sprintf('SELECT * FROM `%s`', $this->getTableName());
 
         if ($this->whereParts) {
             $query .= ' WHERE ' . implode(' AND ', $this->whereParts);

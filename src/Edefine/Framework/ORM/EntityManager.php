@@ -47,7 +47,7 @@ class EntityManager
         }
 
         $this->database->exec(sprintf(
-            'delete from %s where id = %d',
+            'DELETE FROM `%s` WHERE `id` = %d',
             $entity->getTableName(),
             $entity->getId()
         ));
@@ -71,7 +71,7 @@ class EntityManager
         }
 
         $result = $this->database->exec(sprintf(
-            'insert into %s (%s) values (%s)',
+            'INSERT INTO `%s` (%s) VALUES (%s)',
             $entity->getTableName(),
             implode(', ', $fieldsParts),
             implode(', ', $valuesParts)
@@ -95,7 +95,7 @@ class EntityManager
         }
 
         $result = $this->database->exec(sprintf(
-            'update %s set %s where id = %d',
+            'UPDATE `%s` SET %s WHERE `id` = %d',
             $entity->getTableName(),
             implode(', ', $updateParts),
             $entity->getId()

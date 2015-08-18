@@ -35,7 +35,7 @@ abstract class AbstractRepository
 
         foreach ($params as $field => $value) {
             if (is_string($field)) {
-                $queryBuilder->addWhere(sprintf('%s = "%s"', $field, $value));
+                $queryBuilder->addWhere(sprintf('`%s` = "%s"', $field, $value));
             } else {
                 $queryBuilder->addWhere($value);
             }

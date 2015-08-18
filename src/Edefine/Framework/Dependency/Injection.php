@@ -6,6 +6,7 @@ use Edefine\Framework\Cache\Memcached;
 use Edefine\Framework\Config\Reader;
 use Edefine\Framework\Cookie\Cookie;
 use Edefine\Framework\Database\Connection;
+use Edefine\Framework\Database\LoggedConnection;
 use Edefine\Framework\Event\Dispatcher;
 use Edefine\Framework\Http\Request;
 use Edefine\Framework\Http\Server;
@@ -54,7 +55,14 @@ class Injection
         $config = $configReader->read(sprintf('%s/config.ini', APP_DIR));
         $container->add('config', $config);
 
-        $dbConnection = new Connection($config);
+        $logger = new Writer(sprintf('%s/log/dev.log', APP_DIR));
+        $container->add('logger', $logger);
+
+        if ($config->get('application.environment') == 'development') {
+            $dbConnection = new LoggedConnection($config, $logger);
+        } else {
+            $dbConnection = new Connection($config);
+        }
         $container->add('database', $dbConnection);
 
         $manager = new EntityManager($dbConnection);
@@ -62,9 +70,6 @@ class Injection
 
         $memcached = new Memcached($config);
         $container->add('memcached', $memcached);
-
-        $logger = new Writer(sprintf('%s/log/dev.log', APP_DIR));
-        $container->add('logger', $logger);
 
         $router = new Router($config, $server);
         $container->add('router', $router);

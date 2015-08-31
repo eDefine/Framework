@@ -35,7 +35,7 @@ abstract class AbstractRepository
 
         foreach ($params as $field => $value) {
             if (is_string($field)) {
-                $queryBuilder->addWhere(sprintf('`%s` = "%s"', $field, $value));
+                $queryBuilder->addWhere(sprintf('`%s` = "%s"', $field, addslashes($value)));
             } else {
                 $queryBuilder->addWhere($value);
             }
@@ -47,19 +47,30 @@ abstract class AbstractRepository
     }
 
     /**
-     * @param $id
+     * @param array $params
      * @return AbstractEntity
-     * @throws \RuntimeException
+     * @throws \Exception
      */
-    public function findOneById($id)
+    public function findOne(array $params = [])
     {
-        $results = $this->findAll(['id' => $id]);
+        $results = $this->findAll($params);
 
-        if (count($results) == 0) {
-            throw new \RuntimeException(sprintf('Entity with id %d was not found', $id));
+        $resultsCount = count($results);
+        if ($resultsCount != 1) {
+            throw new \Exception(sprintf('findOne expects one result, but %d was returned', $resultsCount));
         }
 
         return $results[0];
+    }
+
+    /**
+     * @param $id
+     * @return AbstractEntity
+     * @throws \Exception
+     */
+    public function findOneById($id)
+    {
+        return $this->findOne(['id' => $id]);
     }
 
     /**

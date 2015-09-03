@@ -48,6 +48,22 @@ abstract class AbstractFixture
     }
 
     /**
+     * @param $length
+     * @param string $chars
+     * @return string
+     */
+    protected function getRandomString($length, $chars = 'abcdefghijklmnopqrstuvwxyz')
+    {
+        $result = '';
+
+        for ($i = 0; $i < $length; $i++) {
+            $result .= $chars[rand(0, strlen($chars) - 1)];
+        }
+
+        return $result;
+    }
+
+    /**
      * @return bool
      */
     protected function getRandomBoolean()

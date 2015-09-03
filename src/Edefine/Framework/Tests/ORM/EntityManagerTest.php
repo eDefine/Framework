@@ -15,7 +15,7 @@ class EntityManagerTest extends \PHPUnit_Framework_TestCase
         $connectionMock
             ->expects($this->once())
             ->method('exec')
-            ->with('insert into foo (id, bar) values (NULL, "baz")');
+            ->with('INSERT INTO `foo` (`id`, `bar`) VALUES (NULL, "baz")');
 
         $connectionMock
             ->expects($this->once())
@@ -64,7 +64,7 @@ class EntityManagerTest extends \PHPUnit_Framework_TestCase
         $connectionMock
             ->expects($this->once())
             ->method('exec')
-            ->with('update foo set id = "123", bar = "baz" where id = 123');
+            ->with('UPDATE `foo` SET `id` = "123", `bar` = "baz" WHERE `id` = 123');
 
         $entityMock = $this->getMockBuilder('Edefine\Framework\Entity\AbstractEntity')
             ->disableOriginalConstructor()
@@ -103,7 +103,7 @@ class EntityManagerTest extends \PHPUnit_Framework_TestCase
         $connectionMock
             ->expects($this->once())
             ->method('exec')
-            ->with('delete from foo where id = 123');
+            ->with('DELETE FROM `foo` WHERE `id` = 123');
 
         $entityMock = $this->getMockBuilder('Edefine\Framework\Entity\AbstractEntity')
             ->disableOriginalConstructor()

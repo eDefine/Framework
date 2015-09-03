@@ -2,7 +2,6 @@
 
 namespace Edefine\Framework\Controller;
 
-use Edefine\Framework\Dependency\Container;
 use Edefine\Framework\Http\HtmlResponse;
 use Edefine\Framework\Http\RedirectResponse;
 use Edefine\Framework\Http\Request;
@@ -14,14 +13,12 @@ use Edefine\Framework\Session\Session;
  */
 abstract class AbstractController
 {
-    private $container;
-
     /**
-     * @param Container $container
+     * @return \ServiceFactory
      */
-    public function __construct(Container $container)
+    protected function getServiceFactory()
     {
-        $this->container = $container;
+        return \ServiceFactory::getInstance();
     }
 
     /**
@@ -30,7 +27,7 @@ abstract class AbstractController
      */
     protected function renderView(array $data = [])
     {
-        $twig = $this->getContainer()->get('twig');
+        $twig = $this->getServiceFactory()->getTwig();
         $html = $twig->render(sprintf(
             '%s/%s.html.twig',
             $this->getRequest()->getControllerName(),
@@ -54,7 +51,7 @@ abstract class AbstractController
      */
     protected function getRequest()
     {
-        return $this->getContainer()->get('request');
+        return $this->getServiceFactory()->getRequest();
     }
 
     /**
@@ -72,15 +69,7 @@ abstract class AbstractController
      */
     protected function getSession()
     {
-        return $this->getContainer()->get('session');
-    }
-
-    /**
-     * @return Container
-     */
-    protected function getContainer()
-    {
-        return $this->container;
+        return $this->getServiceFactory()->getSession();
     }
 
     /**
@@ -92,6 +81,6 @@ abstract class AbstractController
      */
     protected function getPath($controller, $action, array $params = [], $absolute = false)
     {
-        return $this->getContainer()->get('router')->path($controller, $action, $params, $absolute);
+        return $this->getServiceFactory()->getRouter()->path($controller, $action, $params, $absolute);
     }
 }

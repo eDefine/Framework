@@ -2,8 +2,6 @@
 
 namespace Edefine\Framework\Fixture;
 
-use Edefine\Framework\Dependency\Container;
-
 /**
  * Class FixtureIterator
  * @package Edefine\Framework\Fixture
@@ -11,16 +9,13 @@ use Edefine\Framework\Dependency\Container;
 class FixtureIterator implements \Iterator
 {
     private $fileIterator;
-    private $container;
 
     /**
      * @param $path
-     * @param Container $container
      */
-    public function __construct($path, Container $container)
+    public function __construct($path)
     {
         $this->fileIterator = new FixtureFileIterator($path);
-        $this->container = $container;
     }
 
     /**
@@ -44,7 +39,7 @@ class FixtureIterator implements \Iterator
 
         $classPath = '\\Fixture\\' . preg_replace('/\.php$/', '', $classPath);
 
-        return new $classPath($this->container);
+        return new $classPath();
     }
 
     /**

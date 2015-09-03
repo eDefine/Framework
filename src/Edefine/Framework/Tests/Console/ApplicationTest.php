@@ -8,8 +8,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
     public function testRun()
     {
-        $this->markTestSkipped('Session start error');
-
         $inputMock = $this->getMockBuilder('Edefine\Framework\Console\Input\InputInterface')
             ->disableOriginalConstructor()
             ->getMock();
@@ -30,7 +28,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $jobMock = $this->getMockBuilder('Edefine\Framework\Console\AbstractJob')
+        $jobMock = $this->getMockBuilder('Edefine\Framework\Console\JobInterface')
             ->disableOriginalConstructor()
             ->getMock();
 

@@ -6,7 +6,6 @@ use Edefine\Framework\Console\Input\ArgvInput;
 use Edefine\Framework\Console\Input\InputInterface;
 use Edefine\Framework\Console\Output\ConsoleOutput;
 use Edefine\Framework\Console\Output\OutputInterface;
-use Edefine\Framework\Dependency\Container;
 
 /**
  * Class Application
@@ -14,18 +13,8 @@ use Edefine\Framework\Dependency\Container;
  */
 class Application
 {
-    private $container;
-
-    /** @var AbstractJob[] */
+    /** @var JobInterface[] */
     private $jobs = [];
-
-    /**
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
 
     /**
      * @param InputInterface $input
@@ -49,10 +38,10 @@ class Application
     }
 
     /**
-     * @param AbstractJob $job
+     * @param JobInterface $job
      * @throws \RuntimeException
      */
-    public function addJob(AbstractJob $job)
+    public function addJob(JobInterface $job)
     {
         if (isset($this->jobs[$job->getName()])) {
             throw new \RuntimeException(sprintf('Job with name %s already exists', $job->getName()));
@@ -77,6 +66,7 @@ class Application
         foreach ($sections as $section => $jobs) {
             $output->writeln(sprintf('%s:', $section));
 
+            /** @var JobInterface $job */
             foreach ($jobs as $job) {
                 $spacesNumber = $maxLength - strlen($job->getName()) + 1;
 
@@ -105,7 +95,6 @@ class Application
         }
 
         $job = $this->jobs[$jobName];
-        $job->setContainer($this->container);
         $job->run($input, $output);
     }
 }

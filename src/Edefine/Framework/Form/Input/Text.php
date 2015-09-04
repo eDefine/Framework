@@ -16,7 +16,7 @@ class Text extends AbstractInput
     {
         $options = array_merge($options, [
             'name' => $this->getFullName(),
-            'value' => $this->getValue(),
+            'value' => htmlspecialchars($this->getValue()),
             'placeholder' => $this->getName()
         ]);
 

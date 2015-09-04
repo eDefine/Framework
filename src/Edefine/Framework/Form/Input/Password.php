@@ -17,7 +17,7 @@ class Password extends AbstractInput
         $options = array_merge($options, [
             'type' => 'password',
             'name' => $this->getFullName(),
-            'value' => $this->getValue(),
+            'value' => htmlspecialchars($this->getValue()),
             'placeholder' => $this->getName()
         ]);
 

@@ -37,7 +37,7 @@ class Choice extends AbstractInput
                 $selectedString = '';
             }
 
-            $result .= sprintf('<option value="%s" %s>%s</option>', $value, $selectedString, $name);
+            $result .= sprintf('<option value="%s" %s>%s</option>', htmlspecialchars($value), $selectedString, $name);
         }
 
         $result .= '</select>';

@@ -4,6 +4,7 @@ namespace Edefine\Framework\Form;
 
 use Edefine\Framework\Form\Input\AbstractInput;
 use Edefine\Framework\Http\Request;
+use Edefine\Framework\Validator\ValidValidator;
 
 /**
  * Class AbstractForm
@@ -64,8 +65,10 @@ abstract class AbstractForm
             $dataConverter = $input->getDataConverter();
             if (isset($data[$name])) {
                 $this->object->$setter($dataConverter->convertToEntity($data[$name]));
+                $input->setValue($data[$name]);
             } elseif (isset($files[$name])) {
                 $this->object->$setter($dataConverter->convertToEntity($files[$name]));
+                $input->setValue($files[$name]);
             }
         }
     }
@@ -114,5 +117,42 @@ abstract class AbstractForm
         }
 
         return $this->request->hasParam($this->name) || $this->request->hasFiles($this->name);
+    }
+
+    protected function getValidator()
+    {
+        return new ValidValidator();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValid()
+    {
+        return $this->getValidator()->validate($this->object);
+    }
+
+    /**
+     * @param null $field
+     * @return array
+     */
+    public function getErrors($field = null)
+    {
+        $validator = $this->getValidator();
+        $validator->validate($this->object);
+
+        return $validator->getErrors($field);
+    }
+
+    /**
+     * @param null $field
+     * @return bool
+     */
+    public function hasErrors($field = null)
+    {
+        $validator = $this->getValidator();
+        $validator->validate($this->object);
+
+        return $validator->hasErrors($field);
     }
 }

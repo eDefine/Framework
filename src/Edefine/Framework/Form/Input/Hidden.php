@@ -17,7 +17,7 @@ class Hidden extends AbstractInput
         $options = array_merge($options, [
             'type' => 'hidden',
             'name' => $this->getFullName(),
-            'value' => $this->getValue()
+            'value' => htmlspecialchars($this->getValue())
         ]);
 
         return $this->getSimpleInput($options);

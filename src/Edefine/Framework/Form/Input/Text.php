@@ -15,6 +15,7 @@ class Text extends AbstractInput
     public function getField(array $options = [])
     {
         $options = array_merge($options, [
+            'type' => 'text',
             'name' => $this->getFullName(),
             'value' => htmlspecialchars($this->getValue()),
             'placeholder' => $this->getName()

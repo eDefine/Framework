@@ -129,7 +129,11 @@ abstract class AbstractForm
      */
     public function isValid()
     {
-        return $this->getValidator()->validate($this->object);
+        if ($this->request->getParam($this->name)) {
+            return $this->getValidator()->validate($this->object);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -138,10 +142,14 @@ abstract class AbstractForm
      */
     public function getErrors($field = null)
     {
-        $validator = $this->getValidator();
-        $validator->validate($this->object);
+        if ($this->request->getParam($this->name)) {
+            $validator = $this->getValidator();
+            $validator->validate($this->object);
 
-        return $validator->getErrors($field);
+            return $validator->getErrors($field);
+        } else {
+            return [];
+        }
     }
 
     /**
@@ -150,9 +158,13 @@ abstract class AbstractForm
      */
     public function hasErrors($field = null)
     {
-        $validator = $this->getValidator();
-        $validator->validate($this->object);
+        if ($this->request->getParam($this->name)) {
+            $validator = $this->getValidator();
+            $validator->validate($this->object);
 
-        return $validator->hasErrors($field);
+            return $validator->hasErrors($field);
+        } else {
+            return false;
+        }
     }
 }

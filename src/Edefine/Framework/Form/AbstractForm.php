@@ -142,7 +142,7 @@ abstract class AbstractForm
      */
     public function getErrors($field = null)
     {
-        if ($this->request->getParam($this->name)) {
+        if ($this->isSent() && $this->request->getParam($this->name)) {
             $validator = $this->getValidator();
             $validator->validate($this->object);
 
@@ -158,13 +158,6 @@ abstract class AbstractForm
      */
     public function hasErrors($field = null)
     {
-        if ($this->request->getParam($this->name)) {
-            $validator = $this->getValidator();
-            $validator->validate($this->object);
-
-            return $validator->hasErrors($field);
-        } else {
-            return false;
-        }
+        return !!$this->getErrors($field);
     }
 }

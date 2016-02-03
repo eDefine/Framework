@@ -14,6 +14,10 @@ class DateTimeConverter implements ConverterInterface
      */
     public function convertToEntity($formValue)
     {
+        if (!$formValue) {
+            return null;
+        }
+
         return new \DateTime($formValue);
     }
 

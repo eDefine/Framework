@@ -47,7 +47,7 @@ class FixturesLoad implements JobInterface
         foreach ($fixtures as $fixture) {
             $output->writeln(sprintf("%d: Loading fixture %s", $fixture->getOrder(), get_class($fixture)));
 
-            $fixture->load();
+            $fixture->load($output);
         }
     }
 }

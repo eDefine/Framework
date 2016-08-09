@@ -23,7 +23,7 @@ class LogOutput implements OutputInterface
     /**
      * @param $message
      */
-    public function writeln($message)
+    public function writeln($message = '')
     {
         $this->logger->log($message);
     }
@@ -31,7 +31,7 @@ class LogOutput implements OutputInterface
     /**
      * @param $message
      */
-    public function write($message)
+    public function write($message = '')
     {
         $this->writeln($message);
     }

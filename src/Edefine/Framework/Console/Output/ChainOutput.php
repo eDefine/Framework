@@ -14,7 +14,7 @@ class ChainOutput implements OutputInterface
     /**
      * @param $message
      */
-    public function writeln($message)
+    public function writeln($message = '')
     {
         foreach ($this->outputs as $output) {
             $output->writeln($message);
@@ -24,7 +24,7 @@ class ChainOutput implements OutputInterface
     /**
      * @param $message
      */
-    public function write($message)
+    public function write($message = '')
     {
         foreach ($this->outputs as $output) {
             $output->write($message);

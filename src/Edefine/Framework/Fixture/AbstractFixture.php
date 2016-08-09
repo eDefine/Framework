@@ -2,6 +2,8 @@
 
 namespace Edefine\Framework\Fixture;
 
+use Edefine\Framework\Console\Output\OutputInterface;
+
 /**
  * Class AbstractFixture
  * @package Edefine\Framework\Fixture
@@ -9,9 +11,10 @@ namespace Edefine\Framework\Fixture;
 abstract class AbstractFixture
 {
     /**
+     * @param OutputInterface $output
      * @return mixed
      */
-    abstract public function load();
+    abstract public function load(OutputInterface $output);
 
     /**
      * @return mixed

@@ -11,7 +11,7 @@ class ConsoleOutput implements OutputInterface
     /**
      * @param $message
      */
-    public function writeln($message)
+    public function writeln($message = '')
     {
         echo($message . PHP_EOL);
     }
@@ -19,7 +19,7 @@ class ConsoleOutput implements OutputInterface
     /**
      * @param $message
      */
-    public function write($message)
+    public function write($message = '')
     {
         echo($message);
     }

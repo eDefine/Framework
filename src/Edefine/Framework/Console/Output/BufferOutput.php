@@ -13,7 +13,7 @@ class BufferOutput implements OutputInterface
     /**
      * @param $message
      */
-    public function writeln($message)
+    public function writeln($message = '')
     {
         $this->write($message . PHP_EOL);
     }
@@ -21,7 +21,7 @@ class BufferOutput implements OutputInterface
     /**
      * @param $message
      */
-    public function write($message)
+    public function write($message = '')
     {
         $this->buffer .= $message;
     }

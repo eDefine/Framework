@@ -9,12 +9,12 @@ namespace Edefine\Framework\Console\Output;
 interface OutputInterface
 {
     /**
-     * @param $message
+     * @param string $message
      */
-    public function writeln($message);
+    public function writeln($message = '');
 
     /**
-     * @param $message
+     * @param string $message
      */
-    public function write($message);
+    public function write($message = '');
 }
